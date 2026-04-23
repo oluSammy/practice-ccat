@@ -1,0 +1,11 @@
+export { LandingNav } from "./nav";
+export { LandingFooter } from "./footer";
+export { Hero } from "./hero";
+export {
+  EighteenSecondSection,
+  HowItHelpsSection,
+  SampleQuestionSection,
+  ProgressSection,
+  ProofSection,
+  FAQSection,
+} from "./sections";
