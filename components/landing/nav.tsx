@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Logo, ThemeToggle } from "@/components/ccat";
-import { auth0 } from "@/lib/auth0";
-
-const LINKS = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
-];
+import { UserMenu } from "./user-menu";
+import { auth0 } from "@/lib/auth";
 
 export async function LandingNav() {
   const session = await auth0.getSession();
+  const user = session?.user;
 
   return (
     <header className="relative z-10">
@@ -19,7 +15,7 @@ export async function LandingNav() {
           <Logo size={28} />
         </Link>
         <nav className="flex items-center gap-7 text-sm text-ink-muted">
-          {LINKS.map((l) => (
+          {/* {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -27,49 +23,31 @@ export async function LandingNav() {
             >
               {l.label}
             </a>
-          ))}
-          {session ? (
-            <>
-              <span className="hidden sm:inline text-ink">
-                {session.user.email}
-              </span>
-              <a
-                href="/auth/logout"
-                className="hidden sm:inline hover:text-ink transition-colors"
-              >
-                Logout
-              </a>
-            </>
+          ))} */}
+          {user ? (
+            <UserMenu
+              name={user.name}
+              email={user.email}
+              picture={user.picture}
+            />
           ) : (
-            <a
+            <Link
               href="/auth/login"
               className="hidden sm:inline hover:text-ink transition-colors"
             >
               Sign in
-            </a>
+            </Link>
           )}
           <ThemeToggle />
-          {session ? (
-            <Link
-              href="/practice"
-              className={buttonVariants({
-                className:
-                  "h-9 rounded-lg px-4 text-[13px] bg-primary text-primary-foreground hover:bg-[color:var(--brand-hover)]",
-              })}
-            >
-              Start free
-            </Link>
-          ) : (
-            <a
-              href="/auth/login?screen_hint=signup"
-              className={buttonVariants({
-                className:
-                  "h-9 rounded-lg px-4 text-[13px] bg-primary text-primary-foreground hover:bg-[color:var(--brand-hover)]",
-              })}
-            >
-              Start free
-            </a>
-          )}
+          <Link
+            href="/practice"
+            className={buttonVariants({
+              className:
+                "h-9 rounded-lg px-4 text-[13px] bg-primary text-primary-foreground hover:bg-[color:var(--brand-hover)]",
+            })}
+          >
+            Start free
+          </Link>
         </nav>
       </div>
     </header>

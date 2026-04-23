@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Auth0Provider } from "@auth0/nextjs-auth0/client";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -46,7 +47,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Auth0Provider>
+            {children}
+          </Auth0Provider>
           <Toaster richColors closeButton />
         </ThemeProvider>
       </body>
